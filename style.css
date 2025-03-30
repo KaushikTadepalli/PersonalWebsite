@@ -97,77 +97,87 @@ body {
 
 /* About Section */
 #about {
-   padding-top: 6rem; /* Add padding to offset fixed header if you had one */
+   padding-top: 6rem;
    padding-bottom: 4rem;
-   min-height: 80vh; /* Ensure it takes up significant space */
+   min-height: 80vh;
    display: flex;
-   align-items: center; /* Vertically center content */
-   border-top: none; /* Remove top border as it's the first section */
+   align-items: center;
+   border-top: none;
 }
 
 .about-content {
     display: flex;
-    align-items: center; /* Align text and image */
-    justify-content: space-between;
-    gap: 3rem; /* Gap between text and image */
+    align-items: center;
+    /* --- CHANGED: Bring items closer to center --- */
+    justify-content: center; /* Was space-between */
+    gap: 4rem; /* Increased gap slightly to compensate for centering */
+    /* --- END CHANGE --- */
     width: 100%;
 }
 
 .about-text {
-    flex-basis: 60%; /* Text takes up more space */
+    /* --- CHANGED: Adjusted flex-basis --- */
+    flex-basis: 50%; /* Was 60% */
+    /* --- ADDED: Reserve space for text block to prevent shift --- */
+    min-height: 18rem; /* Adjust as needed */
+    display: flex; /* Use flex to align content within this box if needed */
+    flex-direction: column;
+    justify-content: center; /* Vertically center name/subtitle */
+    /* --- END CHANGES --- */
 }
 
 #name-heading {
-    /* Reduced font size */
     font-size: clamp(2.5rem, 8vw, 5rem);
     font-weight: 900;
     color: var(--primary-color);
     letter-spacing: 1px;
-    margin-bottom: 0.5rem; /* Space below name */
-
-    /* --- ADDED TO PREVENT LAYOUT SHIFT --- */
-    min-height: 6rem; /* Reserve vertical space (adjust value if needed based on max font size) */
-    overflow: hidden; /* Prevent potential brief overflow during scramble */
-    display: block; /* Ensure min-height applies correctly */
-    /* --- END OF LAYOUT SHIFT FIX --- */
+    margin-bottom: 0.5rem;
+    /* Removed min-height from here, moved to parent (.about-text) */
+    overflow: hidden; /* Keep this */
+    display: block;
 }
 
 .subtitle {
     font-size: clamp(1.1rem, 3vw, 1.5rem);
     color: var(--text-color);
     font-weight: 400;
-    margin-bottom: 1.5rem; /* Space below subtitle */
+    margin-bottom: 1.5rem;
 }
 
 .about-description {
     font-size: 1rem;
     color: var(--text-color);
     line-height: 1.7;
+    /* Added margin-top to give space from subtitle */
+    margin-top: 1rem;
 }
 
 .about-image {
-    flex-basis: 35%; /* Image takes less space */
+    /* --- CHANGED: Adjusted flex-basis --- */
+    flex-basis: 40%; /* Was 35% */
+    /* --- END CHANGE --- */
     text-align: center;
 }
 
 #portrait-img {
     max-width: 100%;
     height: auto;
-    width: 250px; /* Adjust fixed width as desired */
-    max-height: 350px; /* Optional max height */
+    /* --- CHANGED: Increased width significantly --- */
+    width: 400px; /* Was 250px then 350px */
+    /* --- Removed max-height constraint --- */
     object-fit: cover;
     border-radius: 8px;
-    border: 3px solid var(--border-color); /* Border for the portrait */
+    border: 3px solid var(--border-color);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
 /* Section Styling */
 section {
-    padding: 5rem 0; /* Adjusted padding */
+    padding: 5rem 0;
     border-top: 1px solid var(--border-color);
 }
 
-/* Projects Section - Ensure it has a top border */
+/* Projects Section */
 #projects {
     border-top: 1px solid var(--border-color);
 }
@@ -205,7 +215,7 @@ h2 { /* Section headings */
 
 .project-card img {
     width: 100%;
-    height: 200px; /* Fixed height for consistency */
+    height: 200px;
     object-fit: cover;
     display: block;
     border-bottom: 1px solid var(--border-color);
@@ -220,7 +230,7 @@ h2 { /* Section headings */
 .project-card p {
     font-size: 0.95rem;
     margin: 0 1rem 1rem 1rem;
-    flex-grow: 1; /* Allows description to push button down */
+    flex-grow: 1;
 }
 
 .expand-btn {
@@ -248,9 +258,9 @@ h2 { /* Section headings */
 }
 
 .contact-links a {
-    color: var(--primary-color); /* Icon inherits this color */
+    color: var(--primary-color);
     text-decoration: none;
-    margin: 0 2rem; /* Increased horizontal margin for larger icons */
+    margin: 0 2rem;
     transition: color 0.3s ease;
     position: relative;
     padding-bottom: 5px;
@@ -259,7 +269,7 @@ h2 { /* Section headings */
 
 /* Style the icons directly */
 .contact-links a i {
-    font-size: 2.8rem; /* Increased icon size */
+    font-size: 2.8rem; /* Keep icons large */
     transition: transform 0.2s ease-in-out;
     vertical-align: middle;
 }
@@ -270,7 +280,7 @@ h2 { /* Section headings */
     position: absolute;
     width: 0;
     height: 2px;
-    bottom: -5px; /* Adjusted underline position slightly for larger icons */
+    bottom: -5px;
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--active-color);
@@ -278,15 +288,15 @@ h2 { /* Section headings */
 }
 
 .contact-links a:hover {
-    color: var(--active-color); /* Change icon color on hover */
+    color: var(--active-color);
 }
 
 .contact-links a:hover i {
-     transform: scale(1.1); /* Optional: Slightly enlarge icon on hover */
+     transform: scale(1.1);
 }
 
 .contact-links a:hover::after {
-    width: 60%; /* Adjust underline width for icons */
+    width: 60%;
 }
 
 
@@ -294,15 +304,15 @@ h2 { /* Section headings */
 footer {
     text-align: center;
     margin-top: 4rem;
-    padding: 2rem 0; /* Adjusted padding */
+    padding: 2rem 0;
     border-top: 1px solid var(--border-color);
     font-size: 0.9rem;
     color: #888;
 }
 
-/* Modal Styling (for Project Details) */
+/* Modal Styling */
 .modal {
-    display: none; /* Hidden by default */
+    display: none;
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -351,32 +361,22 @@ footer {
 }
 
 #modal-body h2 {
-    text-align: left;
-    margin-top: 0;
-    margin-bottom: 1rem;
-    color: var(--primary-color);
+    text-align: left; margin-top: 0; margin-bottom: 1rem; color: var(--primary-color);
 }
 #modal-body img {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 1rem;
-    border-radius: 4px;
+    max-width: 100%; height: auto; margin-bottom: 1rem; border-radius: 4px;
 }
 #modal-body p {
-    margin-bottom: 1rem;
-    line-height: 1.7;
+    margin-bottom: 1rem; line-height: 1.7;
 }
 #modal-body ul {
-    margin-bottom: 1rem;
-    padding-left: 25px;
+    margin-bottom: 1rem; padding-left: 25px;
 }
 #modal-body li {
      margin-bottom: 0.5rem;
 }
 #modal-body a {
-    color: var(--active-color); /* Use active color for links in modal */
-    text-decoration: underline;
-    font-weight: bold;
+    color: var(--active-color); text-decoration: underline; font-weight: bold;
 }
 #modal-body a:hover {
     color: var(--primary-color);
@@ -397,22 +397,25 @@ footer {
     .about-content {
         flex-direction: column; /* Stack text and image */
         text-align: center;
-        gap: 2rem;
+        gap: 2rem; /* Adjust gap for stacked layout */
     }
     .about-text {
-        flex-basis: auto;
-        order: 2; /* Text below image */
+        flex-basis: auto; /* Reset basis for stacking */
+        order: 2;
+        min-height: auto; /* Reset min-height when stacked */
+        width: 100%; /* Take full width */
     }
      .about-image {
         flex-basis: auto;
-        order: 1; /* Image above text */
+        order: 1;
     }
     #portrait-img {
-        width: 200px;
+        /* --- CHANGED: Increased responsive size --- */
+        width: 320px; /* Was 200px then 280px */
     }
      #name-heading {
         font-size: clamp(2rem, 10vw, 4rem);
-         min-height: 5rem; /* Adjust min-height for smaller screen */
+         /* min-height adjustment removed here, handled by parent */
     }
     .subtitle {
         font-size: clamp(1rem, 4vw, 1.3rem);
@@ -445,17 +448,18 @@ footer {
         gap: 1.5rem;
     }
     .contact-links a {
-        margin: 0 1.5rem; /* Reduce horizontal margin a bit */
+        margin: 0 1.5rem;
     }
     .contact-links a i {
-         font-size: 2.5rem; /* Slightly smaller icons on medium screens */
+         font-size: 2.5rem;
     }
     .modal-content {
         width: 90%;
         padding: 20px;
     }
      #portrait-img {
-        width: 180px;
+        /* --- CHANGED: Increased responsive size --- */
+        width: 280px; /* Was 180px then 250px */
     }
 }
 
@@ -483,24 +487,25 @@ footer {
     }
     .contact-links {
          display: flex;
-         flex-direction: column; /* Stack icons vertically */
-         gap: 2rem; /* Increased gap for larger icons */
+         flex-direction: column;
+         gap: 2rem;
      }
      .contact-links a {
-         margin: 0; /* Remove horizontal margin when stacked */
+         margin: 0;
      }
      .contact-links a i {
-         font-size: 2.8rem; /* Keep icons large on mobile stack */
+         font-size: 2.8rem;
      }
      .modal-content {
         margin: 10% auto;
     }
      #portrait-img {
-        width: 150px;
+        /* --- CHANGED: Increased responsive size --- */
+        width: 240px; /* Was 150px then 200px */
     }
      #name-heading {
         font-size: clamp(1.8rem, 12vw, 3rem);
-         min-height: 4rem; /* Further adjust min-height */
+         /* min-height adjustment removed here */
     }
       .subtitle {
         font-size: clamp(0.9rem, 3.5vw, 1.1rem);
