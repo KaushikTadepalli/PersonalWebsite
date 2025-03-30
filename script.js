@@ -2,11 +2,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Name Scramble Animation ---
     const nameHeading = document.getElementById('name-heading');
-    if (nameHeading && nameHeading.dataset.text) { // Check if element and data attribute exist
-        const targetText = nameHeading.dataset.text;
-        const chars = '!<>-_\\/[]{}—=+*^?#________'; // Characters for scrambling effect
-        const scrambleDuration = 2000; // Total duration in milliseconds
-        const updateFrequency = 50; // Update interval in milliseconds
+    // Check for element and data attributes needed for two-line animation
+    if (nameHeading && nameHeading.dataset.first && nameHeading.dataset.last) {
+        const firstName = nameHeading.dataset.first;
+        const lastName = nameHeading.dataset.last;
+        const targetText = firstName + lastName; // Combine for length calculation
+        const chars = '!<>-_\\/[]{}—=+*^?#________';
+        const scrambleDuration = 2000; // Duration in ms
         let startTime;
         let animationFrameId;
 
@@ -18,55 +20,60 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!startTime) startTime = timestamp;
             const elapsedTime = timestamp - startTime;
 
-            let scrambledText = '';
+            let scrambledCombinedText = '';
+            // Generate scrambled text based on combined length
             for (let i = 0; i < targetText.length; i++) {
                 const progress = elapsedTime / scrambleDuration;
-                // Stagger the reveal of letters
                 const charRevealTime = (i / targetText.length) * scrambleDuration * 0.6;
 
                 if (elapsedTime > charRevealTime + Math.random() * (scrambleDuration * 0.4) || progress >= 1) {
-                    // Reveal the correct letter based on timing or if animation is complete
-                    scrambledText += targetText[i];
+                    scrambledCombinedText += targetText[i];
                 } else {
-                    // Show a random scrambling character
-                    scrambledText += randomChar();
+                    scrambledCombinedText += randomChar();
                 }
             }
 
-            nameHeading.textContent = scrambledText;
+            // Split the scrambled result based on original first name length
+            const scrambledFirst = scrambledCombinedText.substring(0, firstName.length);
+            const scrambledLast = scrambledCombinedText.substring(firstName.length);
 
-            // Continue animation if duration not reached
+            // Update heading using innerHTML to render the <br> correctly
+            nameHeading.innerHTML = scrambledFirst + '<br>' + scrambledLast;
+
+            // Continue animation or set final state
             if (elapsedTime < scrambleDuration) {
                 animationFrameId = requestAnimationFrame(updateText);
             } else {
-                nameHeading.textContent = targetText; // Ensure final text is correct
+                nameHeading.innerHTML = firstName + '<br>' + lastName; // Final correct state
             }
         }
 
-        // Start the animation slightly delayed (allows font loading etc.)
+        // Start animation after a short delay
         setTimeout(() => {
-             // Cancel any previous frame request if it exists (safety)
-             if (animationFrameId) {
-                 cancelAnimationFrame(animationFrameId);
-             }
-             startTime = null; // Reset start time for potential restart
+             if (animationFrameId) cancelAnimationFrame(animationFrameId);
+             startTime = null;
              animationFrameId = requestAnimationFrame(updateText);
         }, 100);
+
     } else {
-        console.warn("Name heading element or data-text attribute not found.");
+        console.warn("Name heading element or data-first/data-last attributes not found.");
+        // Provide a fallback if the element exists but data is missing
+        if (nameHeading) {
+            nameHeading.innerHTML = "Your<br>Name"; // Default fallback
+        }
     }
 
 
     // --- Sidebar Navigation & Scrollspy ---
     const sidebarLinks = document.querySelectorAll('.sidebar a');
-    const sections = document.querySelectorAll('.main-content section[id]'); // Target only sections with IDs inside main-content
+    const sections = document.querySelectorAll('.main-content section[id]');
 
     if (sidebarLinks.length > 0 && sections.length > 0) {
-        // Function to handle smooth scrolling
+        // Function for smooth scrolling
         function smoothScroll(event) {
             event.preventDefault();
             const targetId = event.currentTarget.getAttribute('href');
-            if (!targetId || targetId === '#') return; // Ignore empty or "#" links
+            if (!targetId || targetId === '#') return;
 
             const targetSection = document.querySelector(targetId);
             if (targetSection) {
@@ -76,68 +83,62 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Function to handle scrollspy highlighting
+        // Function for scrollspy highlighting
         function highlightNavLink() {
             let currentSectionId = '';
             const scrollPosition = window.scrollY;
-            // Offset to trigger highlight slightly before section top reaches viewport top
-            const highlightOffset = 150;
+            const highlightOffset = 150; // Offset for highlighting trigger
 
             sections.forEach(section => {
-                // Ensure section is visible enough before highlighting
-                if (section.offsetHeight > 50) { // Ignore very small sections if any
+                if (section.offsetHeight > 50) { // Ignore tiny sections
                     const sectionTop = section.offsetTop - highlightOffset;
                     const sectionBottom = sectionTop + section.offsetHeight;
 
-                    // Check if current scroll position is within this section's bounds
                     if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
                         currentSectionId = section.getAttribute('id');
                     }
                 }
             });
 
-             // Special case: If scrolled near the bottom, highlight the last section link
-             const nearBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50; // 50px buffer from bottom
+             // Handle reaching the bottom of the page
+             const nearBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50;
              if (nearBottom && !currentSectionId) {
                  const lastSection = sections[sections.length - 1];
                  if(lastSection) currentSectionId = lastSection.getAttribute('id');
              }
 
-            // Update active class on sidebar links
+            // Update active classes on links
             sidebarLinks.forEach(link => {
                 link.classList.remove('active');
                 const linkHref = link.getAttribute('href');
-                // Check if the link's href matches the current section ID (removing '#')
                 if (linkHref && linkHref.slice(1) === currentSectionId) {
                     link.classList.add('active');
                 }
             });
 
-            // If no section is active (e.g., at the very top before the first section)
-            // highlight the first link.
+            // Handle edge case at the very top
             if (!currentSectionId && scrollPosition < sections[0].offsetTop - highlightOffset) {
-                sidebarLinks[0]?.classList.add('active'); // Use optional chaining for safety
+                sidebarLinks[0]?.classList.add('active');
             }
-            // If scrolled past everything but not quite at bottom, ensure last link is active
+            // Handle edge case scrolled past last section
             else if (!document.querySelector('.sidebar a.active') && scrollPosition > sections[sections.length-1].offsetTop) {
                  sidebarLinks[sidebarLinks.length - 1]?.classList.add('active');
             }
         }
 
-        // Add smooth scroll listeners to links
+        // Add click listeners for smooth scroll
         sidebarLinks.forEach(link => {
             link.addEventListener('click', smoothScroll);
         });
 
-        // Listen for scroll events for scrollspy
+        // Add scroll listener for scrollspy (debounced)
         let scrollTimeout;
         window.addEventListener('scroll', () => {
-             // Debounce scroll event slightly for performance
              clearTimeout(scrollTimeout);
-             scrollTimeout = setTimeout(highlightNavLink, 50); // Update highlighting shortly after scrolling stops
-        }, { passive: true }); // Use passive listener for better scroll performance
+             scrollTimeout = setTimeout(highlightNavLink, 50);
+        }, { passive: true });
 
-        // Initial call to highlight link on page load/refresh
+        // Initial highlight on load
         highlightNavLink();
 
     } else {
@@ -153,69 +154,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (modal && modalBody && closeModalBtn && projectCardButtons.length > 0) {
         // ================================================================
-        // <<< CHANGE PROJECT DETAILS HERE >>>
-        // Keys (e.g., 'proj1') MUST match 'data-project-id' on cards in HTML
-        // Use HTML within the 'description' for formatting.
+        // <<< REPLACE WITH YOUR ACTUAL PROJECT DETAILS >>>
+        // Keys MUST match 'data-project-id' on cards in HTML
         // ================================================================
         const projectDetails = {
             'proj1': {
                 title: 'Project Title 1 Detailed',
-                image: 'project1.jpg', // Optional: Can be same or different from card
-                description: `
-                    <p>This is the <strong>detailed description</strong> for Project 1. You can use various HTML tags like lists:</p>
-                    <ul>
-                        <li>Technology Used: HTML, CSS, JavaScript</li>
-                        <li>Key Feature: Interactive something</li>
-                        <li>Challenge: Overcoming specific problem</li>
-                    </ul>
-                    <p>Add more paragraphs as needed to explain the project thoroughly.</p>
-                `,
-                liveLink: '#', // URL to live project or '#' if none
-                repoLink: '#'  // URL to code repository or '#' if none
+                image: 'project1.jpg',
+                description: `<p>Detailed description for Project 1...</p><ul><li>Detail A</li><li>Detail B</li></ul>`,
+                liveLink: '#', // URL or '#'
+                repoLink: '#'  // URL or '#'
             },
             'proj2': {
                 title: 'Project Title 2 Detailed',
                 image: 'project2.jpg',
-                description: `
-                    <p>Detailed info about Project 2. Focus on the purpose, your contributions, and the outcome.</p>
-                    <p><em>Example:</em> Built using React and Firebase.</p>
-                `,
+                description: `<p>Detailed info about Project 2...</p>`,
                 liveLink: '#',
                 repoLink: '#'
             },
-            'proj3': { // Make sure you have a card with data-project-id="proj3" in HTML if you add this
-                 title: 'Project Title 3 Detailed',
-                 image: 'project3.jpg',
-                 description: `<p>Details about the third project...</p>`,
-                 liveLink: '#',
-                 repoLink: '#'
-             }
-            // Add details for all other projects matching their 'data-project-id'
+            // Add more projects here matching HTML data-project-id
         };
         // ================================================================
-        // <<< END OF PROJECT DETAILS SECTION >>>
-        // ================================================================
-
 
         // Function to open the modal
         function openModal(projectId) {
             const details = projectDetails[projectId];
-
             if (details) {
-                // Construct modal content safely
                 let linksHTML = '';
                 const liveValid = details.liveLink && details.liveLink !== '#';
                 const repoValid = details.repoLink && details.repoLink !== '#';
-
-                if (liveValid) {
-                    linksHTML += `<a href="${details.liveLink}" target="_blank" rel="noopener noreferrer">View Live</a>`;
-                }
-                if (liveValid && repoValid) {
-                    linksHTML += ' | '; // Separator only if both links exist
-                }
-                if (repoValid) {
-                     linksHTML += `<a href="${details.repoLink}" target="_blank" rel="noopener noreferrer">View Code</a>`;
-                }
+                if (liveValid) linksHTML += `<a href="${details.liveLink}" target="_blank" rel="noopener noreferrer">View Live</a>`;
+                if (liveValid && repoValid) linksHTML += ' | ';
+                if (repoValid) linksHTML += `<a href="${details.repoLink}" target="_blank" rel="noopener noreferrer">View Code</a>`;
 
                 modalBody.innerHTML = `
                     <h2>${details.title || 'Project Details'}</h2>
@@ -224,8 +194,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     ${linksHTML ? `<p class="modal-links">${linksHTML}</p>` : ''}
                 `;
                 modal.style.display = 'block';
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
-                setTimeout(() => modal.classList.add('visible'), 10); // Add class for potential transition effect
+                document.body.style.overflow = 'hidden';
+                setTimeout(() => modal.classList.add('visible'), 10);
             } else {
                 console.error(`Project details not found for ID: ${projectId}`);
                  modalBody.innerHTML = `<p>Sorry, details for this project could not be loaded.</p>`;
@@ -237,17 +207,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Function to close the modal
         function closeModal() {
-            modal.classList.remove('visible'); // For transition effect
-             // Wait for potential fade-out transition before hiding and clearing
-             // Adjust timeout duration based on CSS transition if you add one
+            modal.classList.remove('visible');
             setTimeout(() => {
                 modal.style.display = 'none';
-                document.body.style.overflow = ''; // Restore scrolling
-                modalBody.innerHTML = ''; // Clear content
-            }, 200); // e.g., 200ms = 0.2s transition
+                document.body.style.overflow = '';
+                modalBody.innerHTML = '';
+            }, 200); // Match CSS transition if added
         }
 
-        // Add click listener to each project card button
+        // Add click listener to project buttons
         projectCardButtons.forEach(button => {
             button.addEventListener('click', () => {
                 const card = button.closest('.project-card');
@@ -261,19 +229,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Add listeners to close the modal
         closeModalBtn.addEventListener('click', closeModal);
-
-        // Close modal if user clicks outside the modal content (on the overlay)
         modal.addEventListener('click', (event) => {
-            if (event.target === modal) { // Check if the click was directly on the modal background
-                closeModal();
-            }
+            if (event.target === modal) closeModal();
         });
-
-         // Close modal on Escape key press
         window.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && modal.style.display === 'block') {
-                closeModal();
-            }
+            if (event.key === 'Escape' && modal.style.display === 'block') closeModal();
         });
 
     } else {
