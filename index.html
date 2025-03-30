@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CHANGE Your Name -->
+    <title>Kaushik Tadepalli</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- About Section -->
+        <section id="about" class="about-section">
+            <div class="about-content">
+                <div class="about-text">
+                    <!-- CHANGE data-text to your actual name -->
+                    <h1 id="name-heading" data-text="Kaushik Tadepalli">Kaushik Tadepalli</h1>
+                    <!-- CHANGE Subtitle -->
+                    <p class="subtitle">Junior at Los Gatos High School</p>
+                    <!-- CHANGE About description -->
+                    <p class="about-description">
+                        Hello!
+                    </p>
+                </div>
+                <div class="about-image">
+                    <!-- CHANGE src to your portrait, alt text -->
+                    <img src="portrait.jpg" alt="Your Name Portrait" id="portrait-img">
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <h2>Projects</h2>
+            <div class="project-grid">
+                <!-- Project Card 1 -->
+                <div class="project-card" data-project-id="proj1">
+                    <!-- CHANGE image src and alt -->
+                    <img src="project1.jpg" alt="Project 1 Thumbnail">
+                    <!-- CHANGE title -->
+                    <h3>Project Title 1</h3>
+                    <!-- CHANGE description -->
+                    <p>Brief description of project 1...</p>
+                    <button class="expand-btn">View Details</button>
+                </div>
+
+                <!-- Project Card 2 -->
+                <div class="project-card" data-project-id="proj2">
+                     <!-- CHANGE image src and alt -->
+                    <img src="project2.jpg" alt="Project 2 Thumbnail">
+                    <!-- CHANGE title -->
+                    <h3>Project Title 2</h3>
+                    <!-- CHANGE description -->
+                    <p>Brief description of project 2...</p>
+                    <button class="expand-btn">View Details</button>
+                </div>
+
+                <!-- Add more project cards as needed -->
+                <!-- Example:
+                <div class="project-card" data-project-id="proj3">
+                    <img src="project3.jpg" alt="Project 3 Thumbnail">
+                    <h3>Project Title 3</h3>
+                    <p>Brief description of project 3...</p>
+                    <button class="expand-btn">View Details</button>
+                </div>
+                -->
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <h2>Contact</h2>
+            <div class="contact-links">
+                <!-- CHANGE email address -->
+                <a href="mailto:your.email@example.com" aria-label="Email me">
+                    <i class="fa-solid fa-envelope"></i>
+                </a>
+                 <!-- CHANGE LinkedIn URL -->
+                <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" aria-label="View my LinkedIn profile">
+                    <i class="fa-brands fa-linkedin"></i>
+                </a>
+                <!-- Add other icon links if desired (e.g., GitHub) -->
+                <!-- Example:
+                <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" aria-label="View my GitHub profile">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+                 -->
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+             <!-- CHANGE Your Name -->
+            <p>© <span id="year"></span> Kaushik Tadepalli. All rights reserved.</p>
+        </footer>
+    </div><!-- End Main Content Area -->
+
+
+    <!-- Project Detail Modal (Hidden by default) -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn">×</button>
+            <div id="modal-body">
+                <!-- Project details will be loaded here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
