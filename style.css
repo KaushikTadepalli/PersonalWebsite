@@ -99,7 +99,7 @@ body {
 #about {
    padding-top: 6rem;
    padding-bottom: 4rem;
-   min-height: 80vh;
+   min-height: 85vh; /* Slightly increased height */
    display: flex;
    align-items: center;
    border-top: none;
@@ -108,22 +108,16 @@ body {
 .about-content {
     display: flex;
     align-items: center;
-    /* --- CHANGED: Bring items closer to center --- */
-    justify-content: center; /* Was space-between */
-    gap: 4rem; /* Increased gap slightly to compensate for centering */
-    /* --- END CHANGE --- */
+    justify-content: center; /* Centered alignment */
+    gap: 4rem; /* Adjust gap if needed */
     width: 100%;
 }
 
 .about-text {
-    /* --- CHANGED: Adjusted flex-basis --- */
-    flex-basis: 50%; /* Was 60% */
-    /* --- ADDED: Reserve space for text block to prevent shift --- */
-    min-height: 18rem; /* Adjust as needed */
-    display: flex; /* Use flex to align content within this box if needed */
+    flex-basis: 50%; /* Adjust basis */
+    display: flex;
     flex-direction: column;
-    justify-content: center; /* Vertically center name/subtitle */
-    /* --- END CHANGES --- */
+    justify-content: center;
 }
 
 #name-heading {
@@ -132,8 +126,14 @@ body {
     color: var(--primary-color);
     letter-spacing: 1px;
     margin-bottom: 0.5rem;
-    /* Removed min-height from here, moved to parent (.about-text) */
-    overflow: hidden; /* Keep this */
+    line-height: 1.1; /* Tighter line spacing for two lines */
+
+    /* --- Allow wrapping and reserve vertical space for TWO lines --- */
+    white-space: normal; /* Allow wrapping (at the <br>) */
+    overflow: hidden;    /* Hide horizontal overflow if any occurs briefly */
+    min-height: 11rem;   /* Reserve space for TWO lines (ADJUST THIS VALUE based on font/line-height) */
+    /* --- END --- */
+
     display: block;
 }
 
@@ -148,27 +148,22 @@ body {
     font-size: 1rem;
     color: var(--text-color);
     line-height: 1.7;
-    /* Added margin-top to give space from subtitle */
     margin-top: 1rem;
 }
 
 .about-image {
-    /* --- CHANGED: Adjusted flex-basis --- */
-    flex-basis: 40%; /* Was 35% */
-    /* --- END CHANGE --- */
+    flex-basis: 45%; /* Adjust basis */
     text-align: center;
 }
 
 #portrait-img {
     max-width: 100%;
     height: auto;
-    /* --- CHANGED: Increased width significantly --- */
-    width: 400px; /* Was 250px then 350px */
-    /* --- Removed max-height constraint --- */
+    width: 450px; /* Keep increased width or adjust */
     object-fit: cover;
     border-radius: 8px;
     border: 3px solid var(--border-color);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
 /* Section Styling */
@@ -397,25 +392,23 @@ footer {
     .about-content {
         flex-direction: column; /* Stack text and image */
         text-align: center;
-        gap: 2rem; /* Adjust gap for stacked layout */
+        gap: 3rem; /* Adjust gap for stacked */
     }
     .about-text {
-        flex-basis: auto; /* Reset basis for stacking */
+        flex-basis: auto;
         order: 2;
-        min-height: auto; /* Reset min-height when stacked */
-        width: 100%; /* Take full width */
+        width: 100%;
     }
      .about-image {
         flex-basis: auto;
         order: 1;
     }
     #portrait-img {
-        /* --- CHANGED: Increased responsive size --- */
-        width: 320px; /* Was 200px then 280px */
+        width: 360px; /* Keep adjusted size */
     }
      #name-heading {
         font-size: clamp(2rem, 10vw, 4rem);
-         /* min-height adjustment removed here, handled by parent */
+        min-height: 9rem; /* Adjust min-height for smaller screens */
     }
     .subtitle {
         font-size: clamp(1rem, 4vw, 1.3rem);
@@ -458,15 +451,17 @@ footer {
         padding: 20px;
     }
      #portrait-img {
-        /* --- CHANGED: Increased responsive size --- */
-        width: 280px; /* Was 180px then 250px */
+        width: 300px; /* Keep adjusted size */
+    }
+    #name-heading{
+         min-height: 8rem; /* Adjust min-height */
     }
 }
 
 @media (max-width: 480px) {
-    :root {
+     :root {
         --sidebar-width: 100px;
-    }
+     }
      body {
         padding-left: var(--sidebar-width);
      }
@@ -500,12 +495,12 @@ footer {
         margin: 10% auto;
     }
      #portrait-img {
-        /* --- CHANGED: Increased responsive size --- */
-        width: 240px; /* Was 150px then 200px */
+        width: 250px; /* Keep adjusted size */
     }
      #name-heading {
         font-size: clamp(1.8rem, 12vw, 3rem);
-         /* min-height adjustment removed here */
+        min-height: 7rem; /* Adjust min-height */
+        line-height: 1.2;
     }
       .subtitle {
         font-size: clamp(0.9rem, 3.5vw, 1.1rem);
