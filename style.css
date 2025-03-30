@@ -124,7 +124,12 @@ body {
     color: var(--primary-color);
     letter-spacing: 1px;
     margin-bottom: 0.5rem; /* Space below name */
-    /* Animation handled by JS */
+
+    /* --- ADDED TO PREVENT LAYOUT SHIFT --- */
+    min-height: 6rem; /* Reserve vertical space (adjust value if needed based on max font size) */
+    overflow: hidden; /* Prevent potential brief overflow during scramble */
+    display: block; /* Ensure min-height applies correctly */
+    /* --- END OF LAYOUT SHIFT FIX --- */
 }
 
 .subtitle {
@@ -245,7 +250,7 @@ h2 { /* Section headings */
 .contact-links a {
     color: var(--primary-color); /* Icon inherits this color */
     text-decoration: none;
-    margin: 0 1.5rem; /* Adjust spacing as needed */
+    margin: 0 2rem; /* Increased horizontal margin for larger icons */
     transition: color 0.3s ease;
     position: relative;
     padding-bottom: 5px;
@@ -254,9 +259,9 @@ h2 { /* Section headings */
 
 /* Style the icons directly */
 .contact-links a i {
-    font-size: 2rem; /* Increase icon size */
-    transition: transform 0.2s ease-in-out; /* Optional: slight scale on hover */
-    vertical-align: middle; /* Align icons nicely */
+    font-size: 2.8rem; /* Increased icon size */
+    transition: transform 0.2s ease-in-out;
+    vertical-align: middle;
 }
 
 /* Optional underline effect */
@@ -265,10 +270,10 @@ h2 { /* Section headings */
     position: absolute;
     width: 0;
     height: 2px;
-    bottom: -2px; /* Position underline slightly below icon */
+    bottom: -5px; /* Adjusted underline position slightly for larger icons */
     left: 50%;
     transform: translateX(-50%);
-    background-color: var(--active-color); /* Use active color for underline */
+    background-color: var(--active-color);
     transition: width 0.3s ease;
 }
 
@@ -407,6 +412,7 @@ footer {
     }
      #name-heading {
         font-size: clamp(2rem, 10vw, 4rem);
+         min-height: 5rem; /* Adjust min-height for smaller screen */
     }
     .subtitle {
         font-size: clamp(1rem, 4vw, 1.3rem);
@@ -439,10 +445,10 @@ footer {
         gap: 1.5rem;
     }
     .contact-links a {
-        margin: 0 1rem;
+        margin: 0 1.5rem; /* Reduce horizontal margin a bit */
     }
     .contact-links a i {
-         font-size: 1.8rem; /* Adjust icon size */
+         font-size: 2.5rem; /* Slightly smaller icons on medium screens */
     }
     .modal-content {
         width: 90%;
@@ -478,13 +484,13 @@ footer {
     .contact-links {
          display: flex;
          flex-direction: column; /* Stack icons vertically */
-         gap: 1.5rem;
+         gap: 2rem; /* Increased gap for larger icons */
      }
      .contact-links a {
          margin: 0; /* Remove horizontal margin when stacked */
      }
      .contact-links a i {
-         font-size: 2rem; /* Keep icons reasonably large */
+         font-size: 2.8rem; /* Keep icons large on mobile stack */
      }
      .modal-content {
         margin: 10% auto;
@@ -494,7 +500,8 @@ footer {
     }
      #name-heading {
         font-size: clamp(1.8rem, 12vw, 3rem);
-     }
+         min-height: 4rem; /* Further adjust min-height */
+    }
       .subtitle {
         font-size: clamp(0.9rem, 3.5vw, 1.1rem);
     }
