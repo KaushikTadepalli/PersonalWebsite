@@ -99,7 +99,7 @@ body {
 #about {
    padding-top: 6rem;
    padding-bottom: 4rem;
-   min-height: 85vh; /* Slightly increased height */
+   min-height: 80vh; /* Slightly increased height */
    display: flex;
    align-items: center;
    border-top: none;
@@ -114,10 +114,11 @@ body {
 }
 
 .about-text {
-    flex-basis: 50%; /* Adjust basis */
-    display: flex;
+    flex-basis: 64%; /* Adjust basis */
+    display: 100%;
+    float: left;
     flex-direction: column;
-    justify-content: center;
+    justify-content: left;
 }
 
 #name-heading {
@@ -152,13 +153,14 @@ body {
 }
 
 .about-image {
-    flex-basis: 45%; /* Adjust basis */
+    flex-basis: 40%; /* Adjust basis */
     text-align: center;
+    float: right;
 }
 
 #portrait-img {
     max-width: 100%;
-    height: auto;
+/*    height: auto; */
     width: 450px; /* Keep increased width or adjust */
     object-fit: cover;
     border-radius: 8px;
